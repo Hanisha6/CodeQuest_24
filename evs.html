@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV Energy Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        header {
+            background-color: #004d99;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+        }
+        .card {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            color: #004d99;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .progress {
+            height: 25px;
+            background-color: #4caf50;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .button {
+            background-color: #004d99;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #003366;
+        }
+        .optimize-tips {
+            margin-top: 15px;
+            color: #ff5722;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Electric Vehicle Energy Management System</h1>
+</header>
+
+<div class="container">
+    <div class="card">
+        <h3>Battery Health</h3>
+        <div class="progress-bar">
+            <div id="batteryHealth" class="progress" style="width: 80%;"></div>
+        </div>
+        <p id="batteryHealthText">80% Healthy</p>
+    </div>
+
+    <div class="card">
+        <h3>Energy Consumption</h3>
+        <p>Current Consumption: <span id="energyConsumption">15 kWh</span></p>
+        <p>Efficiency: <span id="efficiency">85%</span></p>
+    </div>
+
+    <div class="card">
+        <h3>Range Estimation</h3>
+        <p>Estimated Range: <span id="rangeEstimation">120 miles</span></p>
+        <button class="button" onclick="suggestOptimization()">Suggest Optimizations</button>
+        <p id="optimizationTips" class="optimize-tips"></p>
+    </div>
+
+    <div class="card">
+        <h3>Power Usage Breakdown</h3>
+        <canvas id="powerUsageChart" width="200" height="200"></canvas>
+    </div>
+</div>
+
+<script>
+    // Simulate real-time battery health and energy consumption
+    function simulateRealTimeData() {
+        const batteryHealthElement = document.getElementById('batteryHealth');
+        const batteryHealthText = document.getElementById('batteryHealthText');
+        const energyConsumptionElement = document.getElementById('energyConsumption');
+        const efficiencyElement = document.getElementById('efficiency');
+        const rangeEstimationElement = document.getElementById('rangeEstimation');
+
+        // Simulate random battery health and energy consumption changes
+        const batteryHealth = Math.floor(Math.random() * (100 - 50 + 1)) + 50; // 50% - 100%
+        const energyConsumption = Math.floor(Math.random() * (50 - 10 + 1)) + 10; // 10kWh - 50kWh
+        const efficiency = (100 - Math.floor(Math.random() * 15)).toFixed(2); // 85% - 100%
+        const estimatedRange = Math.floor(Math.random() * (300 - 100 + 1)) + 100; // 100-300 miles
+
+        batteryHealthElement.style.width = batteryHealth + '%';
+        batteryHealthText.innerText = batteryHealth + '% Healthy';
+        energyConsumptionElement.innerText = energyConsumption + ' kWh';
+        efficiencyElement.innerText = efficiency + '%';
+        rangeEstimationElement.innerText = estimatedRange + ' miles';
+    }
+
+    // Simulate data every 5 seconds
+    setInterval(simulateRealTimeData, 5000);
+
+    // Optimization suggestions
+    function suggestOptimization() {
+        const optimizationTipsElement = document.getElementById('optimizationTips');
+        const randomTip = [
+            'Drive smoothly to save energy.',
+            'Avoid sudden acceleration to improve efficiency.',
+            'Plan your route to avoid traffic and optimize energy usage.',
+            'Maintain steady speeds to conserve battery life.',
+            'Use regenerative braking whenever possible.'
+        ];
+        const tip = randomTip[Math.floor(Math.random() * randomTip.length)];
+        optimizationTipsElement.innerText = tip;
+    }
+
+    // Initialize Power Usage Chart when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('powerUsageChart').getContext('2d');
+        const powerUsageChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Motor', 'AC', 'Lights', 'Other'],
+                datasets: [{
+                    label: 'Power Usage',
+                    data: [60, 15, 10, 15],
+                    backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#9c27b0']
+                }]
+            }
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+</html>
